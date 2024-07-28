@@ -5,13 +5,23 @@
   "scripts": {
     "test": "jest"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+      "array",
+      "utilities",
+      "deep merge",
+      "chunk",
+      "unique",
+      "zip",
+      "unzip"
+  ],
+  "author": "Team Gotham Geeks",
   "license": "ISC",
-  "description": "",
+  "description": "Utility functions to simplify array operations like deep merging, chunking, and unique value extraction.",
   "devDependencies": {
     "jest": "^29.7.0"
-  }
-
-
+  },
+  "repository": {
+      "type": "git",
+      "url": "https://github.com/yourusername/array-helpers.git"
+    }
 }
