@@ -1,44 +1,43 @@
+// tests/chunk.test.js
 const chunk = require('../src/chunk');
 
-// Helper function to compare arrays
-function arraysEqual(a, b) {
-  return JSON.stringify(a) === JSON.stringify(b);
-}
+describe('chunk', () => {
+  test('should split an array into chunks of the specified size', () => {
+    const array = [1, 2, 3, 4, 5, 6, 7];
+    const size = 3;
+    const result = chunk(array, size);
+    expect(result).toEqual([[1, 2, 3], [4, 5, 6], [7]]);
+  });
 
-// Test cases
-try {
-  // Test case 1: Regular case
-  const result1 = chunk([1, 2, 3, 4, 5, 6, 7], 3);
-  console.log(arraysEqual(result1, [[1, 2, 3], [4, 5, 6], [7]]) ? 'Pass' : 'Fail');
+  test('should handle arrays that do not divide evenly', () => {
+    const array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    const size = 3;
+    const result = chunk(array, size);
+    expect(result).toEqual([[1, 2, 3], [4, 5, 6], [7, 8, 9], [10]]);
+  });
 
-  // Test case 2: Size greater than array length
-  const result2 = chunk([1, 2, 3], 5);
-  console.log(arraysEqual(result2, [[1, 2, 3]]) ? 'Pass' : 'Fail');
+  test('should handle arrays with a single element', () => {
+    const array = [1];
+    const size = 1;
+    const result = chunk(array, size);
+    expect(result).toEqual([[1]]);
+  });
 
-  // Test case 3: Size of 1
-  const result3 = chunk([1, 2, 3], 1);
-  console.log(arraysEqual(result3, [[1], [2], [3]]) ? 'Pass' : 'Fail');
+  test('should handle empty arrays', () => {
+    const array = [];
+    const size = 3;
+    const result = chunk(array, size);
+    expect(result).toEqual([]);
+  });
 
-  // Test case 4: Empty array
-  const result4 = chunk([], 3);
-  console.log(arraysEqual(result4, []) ? 'Pass' : 'Fail');
+  test('should throw a TypeError if the first argument is not an array', () => {
+    expect(() => chunk('not an array', 3)).toThrow(TypeError);
+  });
 
-  // Test case 5: Invalid size (should throw an error)
-  try {
-    chunk([1, 2, 3], -1);
-    console.log('Fail');
-  } catch (e) {
-    console.log('Pass');
-  }
-
-  // Test case 6: Invalid array input (should throw an error)
-  try {
-    chunk('not an array', 3);
-    console.log('Fail');
-  } catch (e) {
-    console.log('Pass');
-  }
-
-} catch (e) {
-  console.error('Test failed', e);
-}
+  test('should throw a TypeError if the second argument is not a positive number', () => {
+    const array = [1, 2, 3, 4, 5];
+    expect(() => chunk(array, -1)).toThrow(TypeError);
+    expect(() => chunk(array, 0)).toThrow(TypeError);
+    expect(() => chunk(array, 'not a number')).toThrow(TypeError);
+  });
+});
